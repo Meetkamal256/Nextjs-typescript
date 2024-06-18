@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import NotFound from "./not-found";
 
 type ReviewDetailProps = {
   params: {
@@ -7,13 +8,19 @@ type ReviewDetailProps = {
   };
 };
 
-export default function ReviewDetail({ params }: ReviewDetailProps) {
-  const reviewId = parseInt(params.reviewId, 10);
+function getRandomInt(count: number) {
+  return Math.floor(Math.random() * count);
+}
 
-  if (reviewId > 1000) {
+export default function ReviewDetail({ params }: ReviewDetailProps) {
+  if (parseInt(params.reviewId) > 1000) {
     notFound();
   }
-
+  
+  const random = getRandomInt(2);
+  if (random === 0) {
+    throw new Error("Error loading review");
+  }
   return (
     <h1>
       Review {params.reviewId} for product {params.productId}
